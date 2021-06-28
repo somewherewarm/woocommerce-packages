@@ -9,4 +9,8 @@
 	},
 	"license": "GPL-3.0+",
 	"main": "index.js",
+	// "devDependencies": {
+	// 	"@wordpress/scripts": "^14.0.0",
+	// 	"@woocommerce/dependency-extraction-webpack-plugin": "^1.4.0"
+	// }
 }
