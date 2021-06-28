@@ -1,0 +1,12 @@
+{
+	"name": "@somewherewarm/woocommerce",
+	"title": "SomewhereWarm packages for WooCommerce",
+	"version": "1.0.0",
+	"homepage": "https://github.com/somewherewarm/woocommerce-packages.git/Read",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/somewherewarm/woocommerce-packages.git"
+	},
+	"license": "GPL-3.0+",
+	"main": "index.js",
+}
