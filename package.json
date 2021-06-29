@@ -1,6 +1,6 @@
 {
   "name": "@somewherewarm/woocommerce",
-  "version": "1.0.0-rc1",
+  "version": "1.0.0-rc2",
   "description": "Collection of WooCommerce packages",
   "main": "index.js",
   "scripts": {
