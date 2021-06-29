@@ -1,6 +1,6 @@
 {
   "name": "@somewherewarm/woocommerce",
-  "version": "1.0.0-rc2",
+  "version": "1.0.0",
   "description": "Collection of WooCommerce packages",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/somewherewarm/woocommerce-packages/issues"
   },
-  "homepage": "https://github.com/somewherewarm/woocommerce-packages#readme",
+  "homepage": "https://www.npmjs.com/package/@somewherewarm/woocommerce",
   "publishConfig": {
     "access": "public"
   }
