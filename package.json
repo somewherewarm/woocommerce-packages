@@ -1,16 +1,23 @@
 {
-	"name": "@somewherewarm/woocommerce",
-	"title": "SomewhereWarm packages for WooCommerce",
-	"version": "1.0.0",
-	"homepage": "https://github.com/somewherewarm/woocommerce-packages.git/Read",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/somewherewarm/woocommerce-packages.git"
-	},
-	"license": "GPL-3.0+",
-	"main": "index.js",
-	// "devDependencies": {
-	// 	"@wordpress/scripts": "^14.0.0",
-	// 	"@woocommerce/dependency-extraction-webpack-plugin": "^1.4.0"
-	// }
+  "name": "@somewherewarm/woocommerce",
+  "version": "1.0.0-rc1",
+  "description": "Collection of WooCommerce packages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/somewherewarm/woocommerce-packages.git"
+  },
+  "keywords": [
+    "somewherewarm",
+    "woocommerce"
+  ],
+  "author": "SomewhereWarm SMPC",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/somewherewarm/woocommerce-packages/issues"
+  },
+  "homepage": "https://github.com/somewherewarm/woocommerce-packages#readme"
 }
