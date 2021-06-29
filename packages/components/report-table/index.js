@@ -35,7 +35,7 @@ import {
  * Internal dependencies
  */
 import DownloadIcon from './download-icon';
-import ReportError from '../report-error';
+import ReportError from './../report-error';
 import { extendTableData } from './utils';
 
 const TABLE_FILTER = 'woocommerce_admin_report_table';

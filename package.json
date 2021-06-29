@@ -15,9 +15,12 @@
     "woocommerce"
   ],
   "author": "SomewhereWarm SMPC",
-  "license": "ISC",
+  "license": "GPL-3.0+",
   "bugs": {
     "url": "https://github.com/somewherewarm/woocommerce-packages/issues"
   },
-  "homepage": "https://github.com/somewherewarm/woocommerce-packages#readme"
+  "homepage": "https://github.com/somewherewarm/woocommerce-packages#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }

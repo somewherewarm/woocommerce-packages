@@ -8,7 +8,7 @@ import CurrencyFactory from '@woocommerce/currency';
 /**
  * Internal dependencies
  */
-import { CURRENCY } from './../settings';
+import { CURRENCY } from '@woocommerce/settings';
 
 const appCurrency = CurrencyFactory( CURRENCY );
 

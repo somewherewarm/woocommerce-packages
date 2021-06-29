@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { Component } from '@wordpress/element';
 import PropTypes from 'prop-types';
 import { EmptyContent } from '@woocommerce/components';
-import { getAdminLink } from './../../settings';
+import { getAdminLink } from '@woocommerce/settings';
 
 /**
  * Component to render when there is an error in a report component due to data
