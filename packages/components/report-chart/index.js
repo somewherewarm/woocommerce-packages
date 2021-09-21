@@ -17,6 +17,7 @@ import {
 	getReportChartData,
 	getTooltipValueFormat,
 	SETTINGS_STORE_NAME,
+	REPORTS_STORE_NAME,
 } from '@woocommerce/data';
 import {
 	getAllowedIntervalsForQuery,
@@ -382,6 +383,9 @@ export default compose(
 			SETTINGS_STORE_NAME
 		).getSetting( 'wc_admin', 'wcAdminSettings' );
 
+		/* eslint @wordpress/no-unused-vars-before-return: "off" */
+		const reportStoreSelector = select( REPORTS_STORE_NAME );
+
 		const newProps = {
 			mode: chartMode,
 			filterParam,
@@ -409,7 +413,9 @@ export default compose(
 			endpoint,
 			dataType: 'primary',
 			query,
+			// Hint: Leave this param for backwards compatibility WC-Admin lt 2.6.
 			select,
+			selector: reportStoreSelector,
 			limitBy,
 			filters,
 			advancedFilters,
@@ -428,7 +434,9 @@ export default compose(
 			endpoint,
 			dataType: 'secondary',
 			query,
+			// Hint: Leave this param for backwards compatibility WC-Admin lt 2.6.
 			select,
+			selector: reportStoreSelector,
 			limitBy,
 			filters,
 			advancedFilters,
