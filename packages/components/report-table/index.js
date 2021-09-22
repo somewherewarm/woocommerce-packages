@@ -27,6 +27,7 @@ import {
 	getReportTableData,
 	EXPORT_STORE_NAME,
 	SETTINGS_STORE_NAME,
+	REPORTS_STORE_NAME,
 	useUserPreferences,
 	QUERY_DEFAULTS,
 } from '@woocommerce/data';
@@ -540,22 +541,32 @@ export default compose(
 			filters,
 			advancedFilters,
 			summaryFields,
+			extendedItemsStoreName,
 		} = props;
+
+		const { woocommerce_default_date_range: defaultDateRange } = select(
+			SETTINGS_STORE_NAME
+		).getSetting( 'wc_admin', 'wcAdminSettings' );
 
 		if ( isRequesting ) {
 			return EMPTY_OBJECT;
 		}
 
-		const { woocommerce_default_date_range: defaultDateRange } = select(
-			SETTINGS_STORE_NAME
-		).getSetting( 'wc_admin', 'wcAdminSettings' );
+		/* eslint @wordpress/no-unused-vars-before-return: "off" */
+		const reportStoreSelector = select( REPORTS_STORE_NAME );
+
+		const extendedStoreSelector = extendedItemsStoreName
+			? select( extendedItemsStoreName )
+			: null;
 
 		const primaryData = getSummary
 			? getReportChartData( {
 					endpoint: endpoint,
 					dataType: 'primary',
 					query,
+					// Hint: Leave this param for backwards compatibility WC-Admin lt 2.6.
 					select,
+					selector: reportStoreSelector,
 					filters,
 					advancedFilters,
 					defaultDateRange,
@@ -567,7 +578,9 @@ export default compose(
 			getReportTableData( {
 				endpoint,
 				query,
+				// Hint: Leave this param for backwards compatibility WC-Admin lt 2.6.
 				select,
+				selector: reportStoreSelector,
 				tableQuery,
 				filters,
 				advancedFilters,
