@@ -5,8 +5,23 @@ const path                           = require( 'path' );
 // Disable minification. It will be minimized in Grunt Uglify task.
 defaultConfig.optimization.minimize = false;
 
-// Allow babel-loader to process @somewherewarm files as well.
-defaultConfig.module.rules[0].exclude = /node_modules\/(?!@somewherewarm).*/;
+// Include node_modules/@somewherewarm scripts in all loaders.
+for ( var key in defaultConfig.module.rules ) {
+
+	if ( ! defaultConfig.module.rules.hasOwnProperty( key ) ) {
+		continue;
+	}
+
+	var rule = defaultConfig.module.rules[ key ];
+	for ( var prop in rule ) {
+
+		if ( ! rule.hasOwnProperty( prop ) || prop !== 'exclude' ) {
+			continue;
+		}
+
+		defaultConfig.module.rules[ key ][ prop ] = /node_modules\/(?!@somewherewarm).*/;
+	}
+}
 
 // Attach front-end deps.
 const wcDepMap = {

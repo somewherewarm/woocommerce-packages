@@ -1,6 +1,9 @@
 *** SomewhereWarm WooCommerce Packages ***
 
-2021-09-21 - version 1.1.1
+2022-01-31 - version 1.0.2
+* Fix - Fixed the exclusions for all module loaders in watch context.
+
+2021-09-21 - version 1.0.1
 * Fix - Fixed issues with 'getReportChartData' selector in WooCommerce Admin gte 2.6.0.
 
 2020-11-13 - version 1.0.0
