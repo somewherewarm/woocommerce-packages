@@ -2,17 +2,12 @@ const defaultConfig = require('@wordpress/scripts/config/webpack.config');
 const WooCommerceDepExtractionPlugin = require('@woocommerce/dependency-extraction-webpack-plugin');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
 
 // Remove SASS rule from the default config so we can define our own.
 const defaultRules = defaultConfig.module.rules.filter((rule) => {
 	return String(rule.test) !== String(/\.(sc|sa)ss$/);
 });
-
-// Remove styles optimization as its not used.
-delete defaultConfig.optimization.styles;
-
-// Disable minification. It will be minimized in Grunt Uglify task.
-defaultConfig.optimization.minimize = false;
 
 // Include node_modules/@somewherewarm scripts in all loaders.
 for (var key in defaultConfig.module.rules) {
@@ -43,10 +38,10 @@ const customSassRule = {
 			loader: 'sass-loader',
 			options: {
 				sassOptions: {
-					includePaths: ['node_modules', 'resources/js/frontend/blocks/sass'],
+					includePaths: ['node_modules', 'resources/js/frontend/blocks/sass', 'resources/js/admin/analytics/sass'],
 					outputStyle: 'compressed',
 				},
-				sourceMap: false,
+				sourceMap: isProduction ? false : true,
 				webpackImporter: false,
 				additionalData: (content) => {
 
@@ -66,8 +61,6 @@ const customSassRule = {
 
 					const localImports = `
 						@import "@automattic/color-studio/dist/color-variables";
-						@import "mixins";
-						@import "colors";
 					`;
 					return styleImports + localImports + content;
 				},
@@ -130,6 +123,16 @@ module.exports = {
 			customSassRule,
 		],
 	},
+	optimization: {
+		...defaultConfig.optimization,
+		splitChunks: {
+			cacheGroups: {
+				default: false
+			}
+		},
+		// Disable minification. It will be minimized in Grunt Uglify task.
+		minimize: false
+	},
 	plugins: [
 		...defaultConfig.plugins.filter(
 			(plugin) =>
@@ -140,8 +143,7 @@ module.exports = {
 			requestToHandle
 		}),
 		new MiniCssExtractPlugin({
-			filename: `blocks.css`,
-			chunkFilename: "[name].css",
+			filename: `[name].css`,
 		}),
 	],
 };
