@@ -1,5 +1,8 @@
 *** SomewhereWarm WooCommerce Packages ***
 
+2022-03-18 - version 1.0.3
+* Feature - Added MiniCssExtractPlugin support for handling SASS files.
+
 2022-01-31 - version 1.0.2
 * Fix - Fixed the exclusions for all module loaders in watch context.
 

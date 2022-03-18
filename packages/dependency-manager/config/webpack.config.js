@@ -1,70 +1,147 @@
-const defaultConfig                  = require( '@wordpress/scripts/config/webpack.config' );
-const WooCommerceDepExtractionPlugin = require( '@woocommerce/dependency-extraction-webpack-plugin' );
-const path                           = require( 'path' );
+const defaultConfig = require('@wordpress/scripts/config/webpack.config');
+const WooCommerceDepExtractionPlugin = require('@woocommerce/dependency-extraction-webpack-plugin');
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+// Remove SASS rule from the default config so we can define our own.
+const defaultRules = defaultConfig.module.rules.filter((rule) => {
+	return String(rule.test) !== String(/\.(sc|sa)ss$/);
+});
+
+// Remove styles optimization as its not used.
+delete defaultConfig.optimization.styles;
 
 // Disable minification. It will be minimized in Grunt Uglify task.
 defaultConfig.optimization.minimize = false;
 
 // Include node_modules/@somewherewarm scripts in all loaders.
-for ( var key in defaultConfig.module.rules ) {
+for (var key in defaultConfig.module.rules) {
 
-	if ( ! defaultConfig.module.rules.hasOwnProperty( key ) ) {
+	if (!defaultConfig.module.rules.hasOwnProperty(key)) {
 		continue;
 	}
 
-	var rule = defaultConfig.module.rules[ key ];
-	for ( var prop in rule ) {
+	var rule = defaultConfig.module.rules[key];
+	for (var prop in rule) {
 
-		if ( ! rule.hasOwnProperty( prop ) || prop !== 'exclude' ) {
+		if (!rule.hasOwnProperty(prop) || prop !== 'exclude') {
 			continue;
 		}
 
-		defaultConfig.module.rules[ key ][ prop ] = /node_modules\/(?!@somewherewarm).*/;
+		defaultConfig.module.rules[key][prop] = /node_modules\/(?!@somewherewarm).*/;
 	}
 }
 
+// Define custom SASS rule.
+const customSassRule = {
+	test: /\.(sc|sa)ss$/,
+	exclude: /(node_modules)/,
+	use: [
+		MiniCssExtractPlugin.loader,
+		{ loader: 'css-loader', options: { importLoaders: 1 } },
+		{
+			loader: 'sass-loader',
+			options: {
+				sassOptions: {
+					includePaths: ['node_modules', 'resources/js/frontend/blocks/sass'],
+					outputStyle: 'compressed',
+				},
+				sourceMap: false,
+				webpackImporter: false,
+				additionalData: (content) => {
+
+					const styleImports = [
+						'colors',
+						'breakpoints',
+						'variables',
+						'mixins',
+						'animations',
+						'z-index',
+					]
+						.map(
+							(imported) =>
+								`@import "@wordpress/base-styles/${imported}";`
+						)
+						.join(' ');
+
+					const localImports = `
+						@import "@automattic/color-studio/dist/color-variables";
+						@import "mixins";
+						@import "colors";
+					`;
+					return styleImports + localImports + content;
+				},
+			},
+		},
+	],
+};
+
 // Attach front-end deps.
 const wcDepMap = {
-	'@woocommerce/blocks-checkout': [ 'wc', 'blocksCheckout' ],
-	'@woocommerce/price-format': [ 'wc', 'priceFormat' ],
-	'@woocommerce/settings': [ 'wc', 'wcSettings' ],
+	'@woocommerce/blocks-registry': ['wc', 'wcBlocksRegistry'],
+	'@woocommerce/settings': ['wc', 'wcSettings'],
+	'@woocommerce/block-data': ['wc', 'wcBlocksData'],
+	'@woocommerce/shared-context': ['wc', 'wcBlocksSharedContext'],
+	'@woocommerce/shared-hocs': ['wc', 'wcBlocksSharedHocs'],
+	'@woocommerce/price-format': ['wc', 'priceFormat'],
+	'@woocommerce/blocks-checkout': ['wc', 'blocksCheckout'],
 };
 
 const wcHandleMap = {
-	'@woocommerce/blocks-checkout': 'wc-blocks-checkout',
-	'@woocommerce/price-format': 'wc-price-format',
+	'@woocommerce/blocks-registry': 'wc-blocks-registry',
 	'@woocommerce/settings': 'wc-settings',
+	'@woocommerce/block-settings': 'wc-settings',
+	'@woocommerce/block-data': 'wc-blocks-data-store',
+	'@woocommerce/shared-context': 'wc-blocks-shared-context',
+	'@woocommerce/shared-hocs': 'wc-blocks-shared-hocs',
+	'@woocommerce/price-format': 'wc-price-format',
+	'@woocommerce/blocks-checkout': 'wc-blocks-checkout',
 };
 
-const requestToExternal = ( request ) => {
-	if ( wcDepMap[ request ] ) {
-		return wcDepMap[ request ];
+const requestToExternal = (request) => {
+	if (wcDepMap[request]) {
+		return wcDepMap[request];
 	}
 };
 
-const requestToHandle = ( request ) => {
-	if ( wcHandleMap[ request ] ) {
-		return wcHandleMap[ request ];
+const requestToHandle = (request) => {
+	if (wcHandleMap[request]) {
+		return wcHandleMap[request];
 	}
 };
 
 // Export configuration.
 module.exports = {
 	...defaultConfig,
+	output: {
+		path: path.resolve(__dirname, 'assets/dist'),
+		filename: '[name].js',
+	},
 	resolve: {
 		alias: {
 			...defaultConfig.resolve.alias,
 			'@somewherewarm': '@somewherewarm/woocommerce/packages',
 		}
 	},
+	module: {
+		...defaultConfig.module,
+		rules: [
+			...defaultRules,
+			customSassRule,
+		],
+	},
 	plugins: [
 		...defaultConfig.plugins.filter(
-			( plugin ) =>
+			(plugin) =>
 				plugin.constructor.name !== 'DependencyExtractionWebpackPlugin'
 		),
-		new WooCommerceDepExtractionPlugin( {
+		new WooCommerceDepExtractionPlugin({
 			requestToExternal,
 			requestToHandle
-		} ),
+		}),
+		new MiniCssExtractPlugin({
+			filename: `blocks.css`,
+			chunkFilename: "[name].css",
+		}),
 	],
 };
