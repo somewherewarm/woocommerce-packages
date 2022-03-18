@@ -8,9 +8,16 @@ This repo can be used for the following purposes:
 
 ### Webpack Configuration
 
-Include the dependency in your local `package.json`:
+You can setup a quick and easy WooCommerce Blocks dev environment with Webpack. To get started, include the dependency in your local `package.json`:
 ```json
 "@somewherewarm/woocommerce": "^1.1.0"
+```
+
+Make sure that the following packages added as `devDependencies` in your `package.json`:
+```json
+"@automattic/color-studio": "^2.5.0",
+"@woocommerce/dependency-extraction-webpack-plugin": "^1.7.0",
+"@wordpress/scripts": "^14.0.0",
 ```
 
 Then, in your `webpack.config.js` you'll need to grap the latest dependecy manager as your main config array:
@@ -36,27 +43,6 @@ module.exports = {
 };
 ```
 
-### React Packages
-
-Available packages:
-- `components`
-- `lib`
-
-Use them in your project by using the following import schema:
-```js
-import Module from '@somewherewarm/[package_name]'
-```
-_e.g._
-```js
-import ReportTable from '@somewherewarm/components'
-```
-
-Available components:
-- `ReportChart`
-- `ReportError`
-- `ReportSummary`
-- `ReportTable`
-
 ### SASS
 
 You can import any SASS file into your JS files. 
@@ -79,3 +65,26 @@ For example, if you have a local file named _"\_colors.scss"_ inside your `resou
 ```
 
 The system will resolve this to `resources/js/frontend/sass/_colors.scss`.
+
+### React Packages
+
+_Currently only used for admin analytics._
+
+Available packages:
+- `components`
+- `lib`
+
+Use them in your project by using the following import schema:
+```js
+import Module from '@somewherewarm/[package_name]'
+```
+_e.g._
+```js
+import ReportTable from '@somewherewarm/components'
+```
+
+Available components:
+- `ReportChart`
+- `ReportError`
+- `ReportSummary`
+- `ReportTable`
