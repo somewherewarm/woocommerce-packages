@@ -12,7 +12,7 @@ You can setup a quick and easy WooCommerce Blocks dev environment with Webpack. 
 ```json
 "@somewherewarm/woocommerce": "^1.1.0"
 ```
-(NPM page)[https://www.npmjs.com/package/@somewherewarm/woocommerce]
+https://www.npmjs.com/package/@somewherewarm/woocommerce
 
 Make sure that the following packages added as `devDependencies` in your `package.json`:
 ```json
