@@ -60,7 +60,7 @@ Global SASS files can be created in any of the following special directories:
 
 For example, if you have a local file named _"\_colors.scss"_ inside your `resources/js/frontend/sass` then you could import this file from any SASS file path using the following simple import:
 ```js
-// ./resources/js/frontend/blocks/components/text-input/index.js
+// ./resources/js/frontend/blocks/components/text-input/style.scss
 @import "colors";
 ```
 
