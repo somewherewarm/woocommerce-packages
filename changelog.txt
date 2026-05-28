@@ -1,5 +1,8 @@
 *** SomewhereWarm WooCommerce Packages ***
 
+2026-05-28 - version 1.1.1
+* Fix - React 19 readiness: replaced 'defaultProps' on the ReportTable function component with a props merge and removed redundant prop-types declarations.
+
 2022-03-18 - version 1.1.0
 * Feature - Added MiniCssExtractPlugin support for handling SASS files.
 
