@@ -9,7 +9,6 @@ import { focus } from '@wordpress/dom';
 import { withDispatch, withSelect } from '@wordpress/data';
 import { get, noop, partial, uniq } from 'lodash';
 import { __, sprintf } from '@wordpress/i18n';
-import PropTypes from 'prop-types';
 import { CompareButton, Search, TableCard } from '@woocommerce/components';
 import {
 	getIdsFromQuery,
@@ -41,7 +40,25 @@ import { extendTableData } from './utils';
 
 const TABLE_FILTER = 'woocommerce_admin_report_table';
 
-const ReportTable = ( props ) => {
+const ReportTable = ( rawProps ) => {
+	// React 19 removes defaultProps on function components — apply defaults via merge instead.
+	const props = {
+		primaryData: {},
+		tableData: {
+			items: {
+				data: [],
+				totalResults: 0,
+			},
+			query: {},
+		},
+		tableQuery: {},
+		compareParam: 'filter',
+		downloadable: false,
+		onSearch: noop,
+		baseSearchQuery: {},
+		...rawProps,
+	};
+
 	const {
 		getHeadersContent,
 		getRowsContent,
@@ -414,115 +431,6 @@ const ReportTable = ( props ) => {
 			/>
 		</Fragment>
 	);
-};
-
-ReportTable.propTypes = {
-	/**
-	 * Pass in query parameters to be included in the path when onSearch creates a new url.
-	 */
-	baseSearchQuery: PropTypes.object,
-
-	/**
-	 * The string to use as a query parameter when comparing row items.
-	 */
-	compareBy: PropTypes.string,
-
-	/**
-	 * Url query parameter compare function operates on
-	 */
-	compareParam: PropTypes.string,
-
-	/**
-	 * The key for user preferences settings for column visibility.
-	 */
-	columnPrefsKey: PropTypes.string,
-
-	/**
-	 * The endpoint to use in API calls to populate the table rows and summary.
-	 * For example, if `taxes` is provided, data will be fetched from the report
-	 * `taxes` endpoint (ie: `/wc-analytics/reports/taxes` and `/wc/v4/reports/taxes/stats`).
-	 * If the provided endpoint doesn't exist, an error will be shown to the user
-	 * with `ReportError`.
-	 */
-	endpoint: PropTypes.string,
-
-	/**
-	 * A function that returns the headers object to build the table.
-	 */
-	getHeadersContent: PropTypes.func.isRequired,
-
-	/**
-	 * A function that returns the rows array to build the table.
-	 */
-	getRowsContent: PropTypes.func.isRequired,
-
-	/**
-	 * A function that returns the summary object to build the table.
-	 */
-	getSummary: PropTypes.func,
-
-	/**
-	 * The name of the property in the item object which contains the id.
-	 */
-	itemIdField: PropTypes.string,
-
-	/**
-	 * Custom labels for table header actions.
-	 */
-	labels: PropTypes.shape( {
-		compareButton: PropTypes.string,
-		downloadButton: PropTypes.string,
-		helpText: PropTypes.string,
-		placeholder: PropTypes.string,
-	} ),
-
-	/**
-	 * Primary data of that report. If it's not provided, it will be automatically
-	 * loaded via the provided `endpoint`.
-	 */
-	primaryData: PropTypes.object,
-
-	/**
-	 * The string to use as a query parameter when searching row items.
-	 */
-	searchBy: PropTypes.string,
-
-	/**
-	 * List of fields used for summary numbers. (Reduces queries)
-	 */
-	summaryFields: PropTypes.arrayOf( PropTypes.string ),
-
-	/**
-	 * Table data of that report. If it's not provided, it will be automatically
-	 * loaded via the provided `endpoint`.
-	 */
-	tableData: PropTypes.object.isRequired,
-
-	/**
-	 * Properties to be added to the query sent to the report table endpoint.
-	 */
-	tableQuery: PropTypes.object,
-
-	/**
-	 * String to display as the title of the table.
-	 */
-	title: PropTypes.string.isRequired,
-};
-
-ReportTable.defaultProps = {
-	primaryData: {},
-	tableData: {
-		items: {
-			data: [],
-			totalResults: 0,
-		},
-		query: {},
-	},
-	tableQuery: {},
-	compareParam: 'filter',
-	downloadable: false,
-	onSearch: noop,
-	baseSearchQuery: {},
 };
 
 const EMPTY_ARRAY = [];

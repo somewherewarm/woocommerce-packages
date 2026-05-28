@@ -7,7 +7,6 @@ import { compose } from '@wordpress/compose';
 import { format as formatDate } from '@wordpress/date';
 import { withSelect } from '@wordpress/data';
 import { get, isEqual } from 'lodash';
-import PropTypes from 'prop-types';
 
 /**
  * WooCommerce dependencies
@@ -259,88 +258,6 @@ export class ReportChart extends Component {
 }
 
 ReportChart.contextType = CurrencyContext;
-
-ReportChart.propTypes = {
-
-	/**
-	 * Filters available for that report.
-	 */
-	filters: PropTypes.array,
-
-	/**
-	 * Whether there is an API call running.
-	 */
-	isRequesting: PropTypes.bool,
-
-	/**
-	 * Label describing the legend items.
-	 */
-	itemsLabel: PropTypes.string,
-
-	/**
-	 * Allows specifying properties different from the `endpoint` that will be used
-	 * to limit the items when there is an active search.
-	 */
-	limitProperties: PropTypes.array,
-
-	/**
-	 * `items-comparison` (default) or `time-comparison`, this is used to generate correct
-	 * ARIA properties.
-	 */
-	mode: PropTypes.string,
-
-	/**
-	 * Current path
-	 */
-	path: PropTypes.string.isRequired,
-
-	/**
-	 * Primary data to display in the chart.
-	 */
-	primaryData: PropTypes.object,
-
-	/**
-	 * The query string represented in object form.
-	 */
-	query: PropTypes.object.isRequired,
-
-	/**
-	 * Secondary data to display in the chart.
-	 */
-	secondaryData: PropTypes.object,
-
-	/**
-	 * Properties of the selected chart.
-	 */
-	selectedChart: PropTypes.shape( {
-
-		/**
-		 * Key of the selected chart.
-		 */
-		key: PropTypes.string.isRequired,
-
-		/**
-		 * Chart label.
-		 */
-		label: PropTypes.string.isRequired,
-
-		/**
-		 * Order query argument.
-		 */
-		order: PropTypes.oneOf( [ 'asc', 'desc' ] ),
-
-		/**
-		 * Order by query argument.
-		 */
-		orderby: PropTypes.string,
-
-		/**
-		 * Number type for formatting.
-		 */
-		type: PropTypes.oneOf( [ 'average', 'number', 'currency' ] ).isRequired,
-
-	} ).isRequired,
-};
 
 ReportChart.defaultProps = {
 	isRequesting: false,

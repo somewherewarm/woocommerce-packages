@@ -5,7 +5,6 @@ import { __ } from '@wordpress/i18n';
 import { Component } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { withSelect } from '@wordpress/data';
-import PropTypes from 'prop-types';
 
 /**
  * WooCommerce dependencies
@@ -118,61 +117,6 @@ export class ReportSummary extends Component {
 		return <SummaryList>{ renderSummaryNumbers }</SummaryList>;
 	}
 }
-
-ReportSummary.propTypes = {
-	/**
-	 * Properties of all the charts available for that report.
-	 */
-	charts: PropTypes.array.isRequired,
-	/**
-	 * The endpoint to use in API calls to populate the Summary Numbers.
-	 * For example, if `taxes` is provided, data will be fetched from the report
-	 * `taxes` endpoint (ie: `/wc-analytics/reports/taxes/stats`). If the provided endpoint
-	 * doesn't exist, an error will be shown to the user with `ReportError`.
-	 */
-	endpoint: PropTypes.string.isRequired,
-
-	/**
-	 * The query string represented in object form.
-	 */
-	query: PropTypes.object.isRequired,
-
-	/**
-	 * Properties of the selected chart.
-	 */
-	selectedChart: PropTypes.shape( {
-		/**
-		 * Key of the selected chart.
-		 */
-		key: PropTypes.string.isRequired,
-		/**
-		 * Chart label.
-		 */
-		label: PropTypes.string.isRequired,
-		/**
-		 * Order query argument.
-		 */
-		order: PropTypes.oneOf( [ 'asc', 'desc' ] ),
-		/**
-		 * Order by query argument.
-		 */
-		orderby: PropTypes.string,
-		/**
-		 * Number type for formatting.
-		 */
-		type: PropTypes.oneOf( [ 'average', 'number', 'currency' ] ).isRequired,
-	} ).isRequired,
-
-	/**
-	 * Data to display in the SummaryNumbers.
-	 */
-	summaryData: PropTypes.object,
-
-	/**
-	 * Report name, if different than the endpoint.
-	 */
-	report: PropTypes.string,
-};
 
 ReportSummary.defaultProps = {
 	summaryData: {

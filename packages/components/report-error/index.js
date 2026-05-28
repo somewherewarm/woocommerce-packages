@@ -3,7 +3,6 @@
  */
 import { __ } from '@wordpress/i18n';
 import { Component } from '@wordpress/element';
-import PropTypes from 'prop-types';
 import { EmptyContent } from '@woocommerce/components';
 import { getAdminLink } from '@woocommerce/settings';
 
@@ -44,24 +43,6 @@ class ReportError extends Component {
 		);
 	}
 }
-
-ReportError.propTypes = {
-
-	/**
-	 * Additional class name to style the component.
-	 */
-	className: PropTypes.string,
-
-	/**
-	 * Boolean representing whether there was an error.
-	 */
-	isError: PropTypes.bool,
-
-	/**
-	 * Boolean representing whether the issue is that there is no data.
-	 */
-	isEmpty: PropTypes.bool,
-};
 
 ReportError.defaultProps = {
 	className: '',
